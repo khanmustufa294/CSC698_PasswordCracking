@@ -39,9 +39,10 @@ http://blog.teamtreehouse.com/install-node-js-npm-linux
 # Distributed Password Cracking
 
 
-Borrow CPU cycles from visitor's web browsers to crack MD5 password hashes. Embedding a hidden `<iframe>` to a website will automatically add a visitor's browser as a node in a password cracking botnet. Their browser will received MD5 hashes and password candidates from a command-and-control server and report back any passwords it cracks for the duration of the time the visitor is browsing the "infected" website.
+Borrow CPU cycles from visitor's web browsers to crack MD5 password hashes. The worker creates an instance of the node class using socket.io with properties to track the progress of each worker and the chunk of passwords that was distributed. We have a list of passwords and a list of hashed passwords in a file where each worker gets a chunk of passwords to decrypt. We assigned a range of passwords(from the passwords.txt file) based on the number of workers that are connected to the server. We use a set of rules to crack each hashed password. We are using parallel computing when distributing the list of passwords within the workers by chunks. Instead of one worker (cpu) cracking all the passwords, we distribute the list of password within a group of workers. This decreases the time it takes to complete the entire list of passwords. Their browser will receive MD5 hashes and password candidates from a command-and-control server and report back any passwords it cracks for the duration of the time the visitor is browsing the "infected" website.
 
-![Screenshot](.screenshot.png)
+
+
 
 ```html
 <!-- add a single iframe embed to *your* website to add all visitors
@@ -51,13 +52,13 @@ Borrow CPU cycles from visitor's web browsers to crack MD5 password hashes. Embe
 
 This is proof-of-concept code for the [Browser as Botnet talk](http://radicalnetworks.org/participants/brannon-dorsey) ([video](https://livestream.com/internetsociety/radnets17/videos/164720367)) at [Radical Networks 2017](http://radicalnetworks.org/). As such, it **is not** optimized. There are far [more efficient ways](https://github.com/brannondorsey/naive-hashcat) to crack passwords if that is your goal. This project is intended to illustrate how compute jobs can be massively distributed across browsers.
 
-**DISCLAIMER: This software is for educational purposes only. This software should not be used for illegal activity. The author is not responsible for its use. Don't be a dick.**
+**DISCLAIMER: This software is for educational purposes only. This software should not be used for illegal activity. The author is not responsible for its use. 
 
 ## Getting Started
 
 ```bash
 # clone this repo
-git clone https://github.com/brannondorsey/distributed-password-cracking
+git clone https://github.com/chetanjohal/CSC698_PasswordCracking
 cd distributed-password-cracking
 
 # install the dependencies
